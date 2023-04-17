@@ -12,7 +12,7 @@ class BinarySearchTree {
 
   constructor() {
     this.treeRoot = null;
-  } 
+  }
 
   root() {
     return this.treeRoot
@@ -69,7 +69,7 @@ class BinarySearchTree {
 
 
   min() {
-    if (!this.treeRoot) return 
+    if (!this.treeRoot) return
 
     let nodeMin = this.treeRoot;
     while (nodeMin.left) {
@@ -79,7 +79,7 @@ class BinarySearchTree {
   }
 
   max() {
-    if (!this.treeRoot) return 
+    if (!this.treeRoot) return
 
     let nodeMax = this.treeRoot;
     while (nodeMax.right) {
@@ -89,8 +89,44 @@ class BinarySearchTree {
   }
 
   remove(data) {
+    this.treeRoot = removeNode(this.treeRoot, data)
 
-}
+    function removeNode(node, data) {
+      if (!node) return null;
+      if (node.data < data) {
+        node.right = removeNode(node.right, data);
+        return node;
+      } else if (data < node.data) {
+        node.left = removeNode(node.left, data);
+        return node;
+
+      } else {
+        if (!node.left && !node.right) return null;
+
+        if (!node.left) {
+          node = node.right;
+          return node;
+        }
+        if (!node.right) {
+          node = node.left;
+          return node;
+        }
+
+        let min = node.right;
+
+        while (min.left) {
+          min = min.left;
+        }
+
+        node.data = min.data;
+        node.right = removeNode(node.right, min.data);
+
+        return node;
+      }
+    }
+
+
+  }
 }
 
 module.exports = {
