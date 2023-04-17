@@ -12,7 +12,7 @@ class BinarySearchTree {
 
   constructor() {
     this.treeRoot = null;
-  }
+  } 
 
   root() {
     return this.treeRoot
@@ -26,7 +26,11 @@ class BinarySearchTree {
       if (!node) return new Node(data)
       if (node.data === data) return node
 
-        (data < node.data) ? (node.left = addNode(node.left, data)) : (node.right = addNode(node.right, data))
+      if (data > node.data) {
+        node.right = addNode(node.right, data);
+      } else {
+        node.left = addNode(node.left, data);
+      }
 
       return node;
     }
@@ -53,60 +57,40 @@ class BinarySearchTree {
       if (!node) return null;
       if (node.data === data) return node;
 
-      return (data < node.data) ? (findNode(node.left, data)) : (findNode(node.right, data))
+
+      return node.data > data ? (findNode(node.left, data)) : (findNode(node.right, data))
+
+      // return element.data > data ? findElement(element.left, data) : findElement(element.right, data)
 
     }
 
   }
 
-  remove(data) {
-    this.treeRoot = removeNode(this.treeRoot, data);
 
-    function removeNode(node, data) {
-      if (!node) return null;
-
-      if (data < node.data) {
-        node.left = removeNode(node.left, data);
-        return node;
-
-      } else if (data > node.data) {
-        node.right = removeNode(node.right, data);
-        return node;
-
-      } else {
-
-        if (!node.left && !node.right) {
-          return null;
-        }
-
-        if (!node.left) {
-          node = node.right;
-          return node;
-        }
-
-        if (!node.right) {
-          node = node.left;
-          return node;
-        }
-
-      }
-    }
-  }
 
   min() {
+    if (!this.treeRoot) return 
 
+    let nodeMin = this.treeRoot;
+    while (nodeMin.left) {
+      nodeMin = nodeMin.left;
+    }
+    return nodeMin.data;
   }
 
   max() {
-    if (!this.treeRoot) return undefined;
+    if (!this.treeRoot) return 
 
-    let node = this.treeRoot;
-    while (node.right) {
-      node = node.right;
+    let nodeMax = this.treeRoot;
+    while (nodeMax.right) {
+      nodeMax = nodeMax.right;
     }
-
-    return node.data;
+    return nodeMax.data;
   }
+
+  remove(data) {
+
+}
 }
 
 module.exports = {
